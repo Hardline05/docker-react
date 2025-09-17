@@ -16,3 +16,25 @@ jobs:
 
       - name: Run tests
         run: docker run --rm -e CI=true app-test npm run test -- --coverage
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Prepare deployment package
+        run: zip -r deploy.zip .
+
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: "frontend"        # имя приложения в EB
+          environment_name: "Frontend-env"    # имя окружения
+          region: "us-east-1"               # регион AWS
+          version_label: ${{ github.sha }}  # уникальная метка билда
+          deployment_package: deploy.zip    # архив кода
+
+

@@ -22,10 +22,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Prepare deployment package
-        run: zip -r deploy.zip .
 
+      - name: Prepare deployment package
+        run: |
+          rm -f deploy.zip
+          zip -r deploy.zip \
+           Dockerfile \
+            package.json \
+           package-lock.json \
+            public \
+            src
       - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:

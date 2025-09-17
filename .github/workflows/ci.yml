@@ -27,7 +27,7 @@ jobs:
         run: |
           rm -f deploy.zip
           zip -r deploy.zip \
-           Dockerfile \
+            Dockerfile \
             package.json \
             package-lock.json \
             public \

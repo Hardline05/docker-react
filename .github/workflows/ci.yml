@@ -42,5 +42,8 @@ jobs:
           region: "us-east-1"               # регион AWS
           version_label: ${{ github.sha }}  # уникальная метка билда
           deployment_package: deploy.zip    # архив кода
-
+          wait_for_deployment: true
+          wait_for_deployment_timeout: 30    # было ~15, поставим 30 минут
+          wait_for_environment_recovery: true
+          wait_for_environment_recovery_timeout: 30
 

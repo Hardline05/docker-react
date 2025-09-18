@@ -21,19 +21,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1) Сборка React на раннере, а не на EC2
+      - name: Install deps & build (React)
+        run: |
+          npm ci
+          npm run build
+
+      # 2) Упаковываем только то, что нужно для деплоя
       - name: Prepare deployment package
         run: |
           rm -f deploy.zip
-          zip -r deploy.zip \
-            Dockerfile \
-            package.json \
-            package-lock.json \
-            public \
-            src
-          echo "---- zip -sf ----"
-          zip -sf deploy.zip
-          echo "---- unzip -l ----"
-          unzip -l deploy.zip
+          zip -r deploy.zip Dockerfile build
+
       - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:

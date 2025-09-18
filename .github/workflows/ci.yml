@@ -1,9 +1,7 @@
 name: CI
-
 on:
   push:
   pull_request:
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -32,6 +30,10 @@ jobs:
             package-lock.json \
             public \
             src
+          echo "---- zip -sf ----"
+          zip -sf deploy.zip
+          echo "---- unzip -l ----"
+          unzip -l deploy.zip
       - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:

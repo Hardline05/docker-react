@@ -12,7 +12,7 @@ jobs:
 
       - name: Install deps & build
         run: |
-          npm CI
+          npm ci
           npm run build
 
  

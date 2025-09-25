@@ -9,13 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
-      - run: docker run -e CI=true cygnetops/react-test npm test
+
+      - name: Install deps & build
+        run: |
+          npm CI
+          npm run build
+
  
       - name: Generate deployment package
         run: |
           rm -f deploy.zip
-          zip -r deploy.zip . -x '*.git*'
+          zip -r deploy.zip build Dockerfile docker-compose.yml
  
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21

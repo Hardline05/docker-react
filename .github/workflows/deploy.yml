@@ -19,7 +19,7 @@ jobs:
       - name: Generate deployment package
         run: |
           rm -f deploy.zip
-          zip -r deploy.zip build Dockerfile docker-compose.yml
+          zip -r deploy.zip build Dockerfile package.json package-lock.json public src .dockerignore
  
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
